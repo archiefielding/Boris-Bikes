@@ -28,9 +28,10 @@ class DockingStation
   private
 
   attr_reader :bikes
+  attr_reader :broken_bikes
 
   def full?
-    bikes.count >= capacity
+    (bikes.count + broken_bikes.count) >= capacity
   end
 
   def empty?

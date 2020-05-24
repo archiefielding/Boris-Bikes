@@ -2,6 +2,8 @@ require 'DockingStation'
 
 describe DockingStation do
 
+  let(:bike) { double :bike }
+
   it { is_expected.to respond_to :release_bike }
 
   it { is_expected.to respond_to :bike }
@@ -10,19 +12,19 @@ describe 'dock' do
   it { is_expected.to respond_to(:dock).with(1).argument }
 
   it 'docks something' do
-    bike = Bike.new
+    bike = double(:bike, broken?: false)
     expect(subject.dock(bike)).to eq [bike]
   end
 
-    it 'raises an error when full' do
-      subject.capacity.times { subject.dock Bike.new }
-      expect { subject.dock(Bike.new) }.to raise_error 'Docking station full.'
-    end
+  it 'raises an error when full' do
+    subject.capacity.times { subject.dock double(:bike, broken?: false) }
+    expect { subject.dock(double(:bike, broken?: false)) }.to raise_error 'Docking station full.'
+  end
 end
 
   describe 'release_bike' do
     it 'releases a bike' do
-      bike = Bike.new
+      bike = double(:bike, broken?: false)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -32,18 +34,15 @@ end
     end
 
     it 'will not release broken bikes' do
-      bike = Bike.new
-      bike2 = Bike.new
-      bike2.report_broken
+      bike = double(:bike, broken?: true)
       subject.dock(bike)
-      subject.dock(bike2)
-      expect(subject.release_bike).to eq bike
+      expect{ subject.release_bike }.to raise_error 'No bikes available.'
     end
   end
 
   describe 'initialization' do
     subject { DockingStation.new }
-    let(:bike) { Bike.new }
+    let(:bike) { double(:bike, broken?: false) }
     it 'defaults capacity' do
       described_class::DEFAULT_CAPACITY.times do
         subject.dock(bike)
@@ -53,8 +52,8 @@ end
 
     it 'has a variable capacity' do
       docking_station = DockingStation.new(50)
-      50.times { docking_station.dock Bike.new }
-      expect{ docking_station.dock Bike.new }.to raise_error 'Docking station full.'
+      50.times { docking_station.dock double(:bike, broken?: false) }
+      expect{ docking_station.dock double(:bike, broken?: false) }.to raise_error 'Docking station full.'
     end
   end
 
