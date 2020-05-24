@@ -16,6 +16,10 @@ class DockingStation
     @bikes.pop
   end
 
+  def move_broken_bikes
+    @broken_bikes.pop(@broken_bikes.count)
+  end
+
   def dock(bike)
     fail 'Docking station full.' if full?
     if bike.broken? == true

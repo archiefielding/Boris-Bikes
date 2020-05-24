@@ -38,6 +38,13 @@ end
       subject.dock(bike)
       expect{ subject.release_bike }.to raise_error 'No bikes available.'
     end
+
+    it 'releases broken bikes' do
+      bike = Bike.new
+      bike.report_broken
+      subject.dock(bike)
+      expect(subject.move_broken_bikes).to eq [bike]
+    end
   end
 
   describe 'initialization' do
