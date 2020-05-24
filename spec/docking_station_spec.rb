@@ -43,7 +43,7 @@ end
       bike = Bike.new
       bike.report_broken
       subject.dock(bike)
-      expect(subject.move_broken_bikes).to eq [bike]
+      expect(subject.move_bikes).to eq [bike]
     end
   end
 

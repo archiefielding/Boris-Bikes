@@ -5,7 +5,11 @@ class Van
     @bikes = []
   end
 
-  def load_bikes_from(docking_station)
-    @bikes = docking_station.move_broken_bikes
+  def load_bikes_from(source)
+    @bikes = source.move_bikes
+  end
+
+  def move_bikes
+    @bikes.pop(@bikes.count)
   end
 end

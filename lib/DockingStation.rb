@@ -16,8 +16,14 @@ class DockingStation
     @bikes.pop
   end
 
-  def move_broken_bikes
+  def move_bikes
     @broken_bikes.pop(@broken_bikes.count)
+  end
+
+  def load_bikes_from(van)
+    (van.move_bikes).each do |bike|
+      @bikes << bike
+    end
   end
 
   def dock(bike)
